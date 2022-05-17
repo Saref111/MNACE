@@ -1,0 +1,47 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.game {
+    width: 100px;
+    height: 100px;
+    transform: scale(2);
+}
+
+.game__area {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.game__cell {
+    width: 30px;
+    display: flex;
+    border: 1px solid #000;
+}
+
+.game__control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
