@@ -24,10 +24,24 @@ main {
 .game.game--end::after {
     width: 100%;
     height: 100%;
-    content: '';
+    content: 'Click to restart';
+    background-color: #e2e2e2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
     position: absolute;
     top: 0;
     left: 0;
+}
+.game.game--end-d::before {
+    content: "Draw";
+    z-index: 11;
+    position: absolute;
+    top: 15%;
+    left: 35%;
+    width: 90%;
+    height: 2px;
 }
 .game.game--end-h1::before {
     content: "";

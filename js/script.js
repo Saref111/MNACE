@@ -11,6 +11,7 @@ const GameEndClassPrefixes = {
     H1: 'h1',
     H2: 'h2',
     H3: 'h3',
+    D: 'd'
 }
 let currentPlayer = Players.X;
 const gameContainer = document.querySelector('.game');
@@ -19,7 +20,7 @@ const gameControls = document.querySelectorAll('.game__control');
 const changePlayer = () => currentPlayer = currentPlayer === Players.X ? Players.O : Players.X;
 const handleGameRestart = () => {
     gameContainer.classList.remove(`game--end`);
-    gameContainer.classList.remove(`game--end-${GameEndClassPrefixes.X1}`, `game--end-${GameEndClassPrefixes.X2}`, `game--end-${GameEndClassPrefixes.V1}`, `game--end-${GameEndClassPrefixes.V2}`, `game--end-${GameEndClassPrefixes.V3}`, `game--end-${GameEndClassPrefixes.H1}`, `game--end-${GameEndClassPrefixes.H2}`, `game--end-${GameEndClassPrefixes.H3}`);
+    gameContainer.classList.remove(`game--end-${GameEndClassPrefixes.D}`, `game--end-${GameEndClassPrefixes.X1}`, `game--end-${GameEndClassPrefixes.X2}`, `game--end-${GameEndClassPrefixes.V1}`, `game--end-${GameEndClassPrefixes.V2}`, `game--end-${GameEndClassPrefixes.V3}`, `game--end-${GameEndClassPrefixes.H1}`, `game--end-${GameEndClassPrefixes.H2}`, `game--end-${GameEndClassPrefixes.H3}`);
     gameContainer.removeEventListener('click', handleGameRestart);
     Array.from(gameControls).forEach((control) => control.querySelector('span').textContent = '');
 }
@@ -35,28 +36,32 @@ const checkWinner = () => {
     switch (true) {
         case gameValues[0] === gameValues[1] && gameValues[1] === gameValues[2] && gameValues[0] !== '':
             handleGameEnd(GameEndClassPrefixes.H1);
-            break;
+            return;
         case gameValues[3] === gameValues[4] && gameValues[4] === gameValues[5] && gameValues[3] !== '':
             handleGameEnd(GameEndClassPrefixes.H2);
-            break;
+            return;
         case gameValues[6] === gameValues[7] && gameValues[7] === gameValues[8] && gameValues[6] !== '':
             handleGameEnd(GameEndClassPrefixes.H3);
-            break;
+            return;
         case gameValues[0] === gameValues[3] && gameValues[3] === gameValues[6] && gameValues[0] !== '':
             handleGameEnd(GameEndClassPrefixes.V1);
-            break;
+            return;
         case gameValues[1] === gameValues[4] && gameValues[4] === gameValues[7] && gameValues[1] !== '':
             handleGameEnd(GameEndClassPrefixes.V2);
-            break;
+            return;
         case gameValues[2] === gameValues[5] && gameValues[5] === gameValues[8] && gameValues[2] !== '':
             handleGameEnd(GameEndClassPrefixes.V3);
-            break;
-        case gameValues[0] === gameValues[4] && gameValues[4] === gameValues[8]:
+            return;
+        case gameValues[0] === gameValues[4] && gameValues[4] === gameValues[8] && gameValues[0] !== '':
             handleGameEnd(GameEndClassPrefixes.X1);
-            break;
-        case gameValues[2] === gameValues[4] && gameValues[4] === gameValues[6]:
+            return;
+        case gameValues[2] === gameValues[4] && gameValues[4] === gameValues[6] && gameValues[2] !== '':
             handleGameEnd(GameEndClassPrefixes.X2);
-            break;
+            return;
+    }
+
+    if (!gameValues.includes('')) {
+        handleGameEnd(GameEndClassPrefixes.D);
     }
 }
 const checkGameState = () => {
