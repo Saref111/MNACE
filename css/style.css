@@ -17,14 +17,100 @@ main {
 }
 
 .game {
-    width: 100px;
-    height: 100px;
     transform: scale(2);
+    position: relative;
+}
+
+.game.game--end-h1::before {
+    content: "";
+    position: absolute;
+    top: 15%;
+    left: 0;
+    width: 90%;
+    height: 2px;
+    background-color: red;
+    opacity: 0.5;
+}
+
+.game.game--end-h2::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 90%;
+    height: 2px;
+    background-color: red;
+    opacity: 0.5;
+}
+.game.game--end-h3::before {
+    content: "";
+    position: absolute;
+    top: 83%;
+    left: 0;
+    width: 90%;
+    height: 2px;
+    background-color: red;
+    opacity: 0.5;
+}
+
+.game.game--end-v1::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 15%;
+    width: 2px;
+    height: 100%;
+    background-color: red;
+    opacity: 0.5;
+}
+.game.game--end-v2::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 45%;
+    width: 2px;
+    height: 100%;
+    background-color: red;
+    opacity: 0.5;
+}
+.game.game--end-v3::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 75%;
+    width: 2px;
+    height: 100%;
+    background-color: red;
+    opacity: 0.5;
+}
+.game.game--end-x1::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 130%;
+    background-color: red;
+    opacity: 0.5;
+    transform-origin: 0 0;
+    transform: rotate(-40deg);
+}
+.game.game--end-x2::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 10px;
+    width: 2px;
+    height: 130%;
+    background-color: red;
+    opacity: 0.5;
+    transform-origin: 0 0;
+    transform: rotate(40deg);
 }
 
 .game__area {
-    width: 100%;
-    height: 100%;
+    width: 100px;
+    height: 100px;
     display: flex;
     flex-wrap: wrap;
     list-style: none;
@@ -33,7 +119,8 @@ main {
 }
 
 .game__cell {
-    width: 30px;
+    width: 33px;
+    height: 33px;
     display: flex;
     border: 1px solid #000;
 }
