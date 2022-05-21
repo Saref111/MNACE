@@ -5,6 +5,11 @@ export default class Game {
         this.currentPlayer = Players.X;
         this.gameContainer = document.querySelector('.game');
         this.gameControls = document.querySelectorAll('.game__control');
+        this.gameStats = document.querySelector('.stats');
+        this.count = {
+            'X': 0,
+            'O': 0
+        }
         
 
         this.gameControls.forEach((control) => control.addEventListener('click', this.handleControlClick));
@@ -21,28 +26,28 @@ export default class Game {
 
         switch (true) {
             case gameValues[0] === gameValues[1] && gameValues[1] === gameValues[2] && gameValues[0] !== '':
-                this.handleGameEnd(GameEndClassPrefixes.H1);
+                this.handleGameEnd(GameEndClassPrefixes.H1, gameValues[0]);
                 return;
             case gameValues[3] === gameValues[4] && gameValues[4] === gameValues[5] && gameValues[3] !== '':
-                this.handleGameEnd(GameEndClassPrefixes.H2);
+                this.handleGameEnd(GameEndClassPrefixes.H2, gameValues[3]);
                 return;
             case gameValues[6] === gameValues[7] && gameValues[7] === gameValues[8] && gameValues[6] !== '':
-                this.handleGameEnd(GameEndClassPrefixes.H3);
+                this.handleGameEnd(GameEndClassPrefixes.H3, gameValues[6]);
                 return;
             case gameValues[0] === gameValues[3] && gameValues[3] === gameValues[6] && gameValues[0] !== '':
-                this.handleGameEnd(GameEndClassPrefixes.V1);
+                this.handleGameEnd(GameEndClassPrefixes.V1, gameValues[0]);
                 return;
             case gameValues[1] === gameValues[4] && gameValues[4] === gameValues[7] && gameValues[1] !== '':
-                this.handleGameEnd(GameEndClassPrefixes.V2);
+                this.handleGameEnd(GameEndClassPrefixes.V2, gameValues[1]);
                 return;
             case gameValues[2] === gameValues[5] && gameValues[5] === gameValues[8] && gameValues[2] !== '':
-                this.handleGameEnd(GameEndClassPrefixes.V3);
+                this.handleGameEnd(GameEndClassPrefixes.V3, gameValues[2]);
                 return;
             case gameValues[0] === gameValues[4] && gameValues[4] === gameValues[8] && gameValues[0] !== '':
-                this.handleGameEnd(GameEndClassPrefixes.D);
+                this.handleGameEnd(GameEndClassPrefixes.X1, gameValues[0]);
                 return;
             case gameValues[2] === gameValues[4] && gameValues[4] === gameValues[6] && gameValues[2] !== '':
-                this.handleGameEnd(GameEndClassPrefixes.D);
+                this.handleGameEnd(GameEndClassPrefixes.X2, gameValues[2]);
                 return;
             }
         if (!gameValues.includes('')) {
@@ -83,19 +88,33 @@ export default class Game {
         this.changePlayer();
     }
 
-    handleGameEnd = (prefix) => {
+    handleGameEnd = (prefix, winner) => {
         const gameEndClass = `game--end-${prefix}`;
         this.gameContainer.classList.add(`game--end`);
         this.gameContainer.classList.add(gameEndClass);
         this.gameContainer.addEventListener('click', this.handleGameRestart);
-    }
+        this.gameContainer.addEventListener('keypress', this.handleGameRestart);
 
+        if (winner) {
+            this.handleStat(winner)
+        }
+    } 
+
+    handleStat = (winner) => {
+        const tds = this.gameStats.querySelectorAll('td');
+
+        this.count[winner]++;
+
+        tds[0].textContent = this.count['X'];
+        tds[1].textContent = this.count['O'];
+    }
+    
     handleGameRestart = () => {
         this.gameContainer.classList.remove(`game--end`);
         this.gameContainer.classList.remove(`game--end-${GameEndClassPrefixes.D}`, `game--end-${GameEndClassPrefixes.X1}`, `game--end-${GameEndClassPrefixes.X2}`, `game--end-${GameEndClassPrefixes.V1}`, `game--end-${GameEndClassPrefixes.V2}`, `game--end-${GameEndClassPrefixes.V3}`, `game--end-${GameEndClassPrefixes.H1}`, `game--end-${GameEndClassPrefixes.H2}`, `game--end-${GameEndClassPrefixes.H3}`);
         this.gameContainer.removeEventListener('click', this.handleGameRestart);
+        this.gameContainer.removeEventListener('keypress', this.handleGameRestart);
         Array.from(this.gameControls).forEach((control) => control.querySelector('span').textContent = '');
-        this.gameContainer.removeEventListener('click', this.handleGameRestart);
         this.currentPlayer = Players.X;
     }
 }

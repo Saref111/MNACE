@@ -12,12 +12,42 @@ body {
 main {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     height: 100vh;
+    flex-wrap: wrap;
 }
 
+.stats {
+    flex-basis: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #000;
+}
+
+tr:not(:last-child) {
+    border-bottom: 1px solid #000;
+}
+
+td, th {
+    text-align: center;
+    padding: 10px;
+}
+
+td:not(:last-child),
+th:not(:last-child) {
+    border-right: 1px solid #000;
+}
+
+
 .game {
-    transform: scale(2);
+    /* transform: scale(2); */
     position: relative;
 }
 
