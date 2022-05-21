@@ -1,2 +1,2 @@
-# MNACE
+# MENACE
 Matchbox Educable Noughts and Crosses Engine
