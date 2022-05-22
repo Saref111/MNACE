@@ -31,4 +31,8 @@ export default class Box {
     getTurnNumber() {
         return this.currentState.filter(state => state !== '').length;
     }
+
+    getNextState() {
+        return this.possibleNextStates[Math.floor(Math.random() * this.possibleNextStates.length)];
+    }
 }

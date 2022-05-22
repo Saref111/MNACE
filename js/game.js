@@ -5,17 +5,20 @@ export default class Game {
         this.currentPlayer = Players.X;
         this.gameContainer = document.querySelector('.game');
         this.gameControls = document.querySelectorAll('.game__control');
+        this.disableControls();
         this.gameStats = document.querySelector('.stats');
+        this.isEnded = false;
         this.count = {
             'X': 0,
             'O': 0
         }
-
+        
         this.turnCallbacks = [];
         this.resetCallbacks = [];
         
-
+        
         this.gameControls.forEach((control) => control.addEventListener('click', this.handleControlClick));
+        this.enableControls();
     }
 
     onTurn(callback) {
@@ -23,6 +26,17 @@ export default class Game {
     }
     onReset(callback) {
         this.resetCallbacks.push(callback);
+    }
+
+    setState(box) {
+        if (!box) return
+
+        const controls = this.gameContainer.querySelectorAll('.game__value');
+        Array.from(controls).forEach((value, index) => {
+            if (value.textContent !== box.currentState[index]) {
+                this.handleControlClick({target: value.parentElement, stopPropagation: () => {}});
+            }
+        });
     }
 
     getState() {
@@ -105,20 +119,29 @@ export default class Game {
     }
 
     handleGameEnd = (prefix, winner) => {
+        this.isEnded = true;
         const gameEndClass = `game--end-${prefix}`;
         this.gameContainer.classList.add(`game--end`);
         this.gameContainer.classList.add(gameEndClass);
         this.gameContainer.addEventListener('click', this.handleGameRestart);
         this.gameContainer.addEventListener('keypress', this.handleGameRestart);
-
+        
         if (winner) {
             this.handleStat(winner)
         }
     } 
 
+    disableControls = () => {
+        this.gameControls.forEach((control) => control.disabled = true);
+    }
+    enableControls = () => {
+        this.gameControls.forEach((control) => control.disabled = false);
+    }
+
     handleStat = (winner) => {
         const tds = this.gameStats.querySelectorAll('td');
 
+        debugger
         this.count[winner]++;
 
         tds[0].textContent = this.count['X'];
@@ -126,6 +149,7 @@ export default class Game {
     }
     
     handleGameRestart = () => {
+        this.isEnded = false;
         this.gameContainer.classList.remove(`game--end`);
         this.gameContainer.classList.remove(`game--end-${GameEndClassPrefixes.D}`, `game--end-${GameEndClassPrefixes.X1}`, `game--end-${GameEndClassPrefixes.X2}`, `game--end-${GameEndClassPrefixes.V1}`, `game--end-${GameEndClassPrefixes.V2}`, `game--end-${GameEndClassPrefixes.V3}`, `game--end-${GameEndClassPrefixes.H1}`, `game--end-${GameEndClassPrefixes.H2}`, `game--end-${GameEndClassPrefixes.H3}`);
         this.gameContainer.removeEventListener('click', this.handleGameRestart);
