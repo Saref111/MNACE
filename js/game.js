@@ -10,9 +10,24 @@ export default class Game {
             'X': 0,
             'O': 0
         }
+
+        this.turnCallbacks = [];
+        this.resetCallbacks = [];
         
 
         this.gameControls.forEach((control) => control.addEventListener('click', this.handleControlClick));
+    }
+
+    onTurn(callback) {
+        this.turnCallbacks.push(callback);
+    }
+    onReset(callback) {
+        this.resetCallbacks.push(callback);
+    }
+
+    getState() {
+        const boxes = this.gameContainer.querySelectorAll('.game__value');
+        return Array.from(boxes).map((value) => value.textContent.trim());
     }
 
     changePlayer = () => {
@@ -86,6 +101,7 @@ export default class Game {
 
         this.checkGameState();
         this.changePlayer();
+        this.turnCallbacks.forEach((callback) => callback());
     }
 
     handleGameEnd = (prefix, winner) => {
@@ -116,5 +132,6 @@ export default class Game {
         this.gameContainer.removeEventListener('keypress', this.handleGameRestart);
         Array.from(this.gameControls).forEach((control) => control.querySelector('span').textContent = '');
         this.currentPlayer = Players.X;
+        this.resetCallbacks.forEach((callback) => callback());
     }
 }

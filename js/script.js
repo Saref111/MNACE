@@ -1,7 +1,8 @@
 import Game from './game.js';
-import Box from './menace/box.js';
+import Controller from './menace/controller.js';
 
 const game = new Game();
 
-const boxesTree = new Box(['', '', '', '', '', 'X', '', '', '']);
-console.log(boxesTree);
+const menace = new Controller(game);
+
+console.log(menace);
