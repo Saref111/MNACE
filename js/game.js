@@ -15,6 +15,7 @@ export default class Game {
         
         this.turnCallbacks = [];
         this.resetCallbacks = [];
+        this.endCallbacks = [];
         
         
         this.gameControls.forEach((control) => control.addEventListener('click', this.handleControlClick));
@@ -26,6 +27,9 @@ export default class Game {
     }
     onReset(callback) {
         this.resetCallbacks.push(callback);
+    }
+    onEnd(callback) {
+        this.endCallbacks.push(callback);
     }
 
     setState(box) {
@@ -119,6 +123,7 @@ export default class Game {
     }
 
     handleGameEnd = (prefix, winner) => {
+
         this.isEnded = true;
         const gameEndClass = `game--end-${prefix}`;
         this.gameContainer.classList.add(`game--end`);
@@ -129,6 +134,8 @@ export default class Game {
         if (winner) {
             this.handleStat(winner)
         }
+
+        this.endCallbacks.forEach((callback) => callback({winner, state: this.getState()}));
     } 
 
     disableControls = () => {
@@ -141,7 +148,6 @@ export default class Game {
     handleStat = (winner) => {
         const tds = this.gameStats.querySelectorAll('td');
 
-        debugger
         this.count[winner]++;
 
         tds[0].textContent = this.count['X'];

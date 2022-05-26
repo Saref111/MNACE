@@ -5,4 +5,4 @@ const game = new Game();
 
 const menace = new Controller(game);
 
-console.log(menace);
+// console.log(menace);
